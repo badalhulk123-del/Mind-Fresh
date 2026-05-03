@@ -4,7 +4,7 @@ import random
 # ---------------- PAGE CONFIG ----------------
 
 st.set_page_config(
-    page_title="Love Game",
+    page_title="Guess a number",
     page_icon="💖",
     layout="centered"
 )
@@ -74,7 +74,7 @@ st.markdown("""
 
 # ---------------- GAME UI ----------------
 
-st.markdown('<div class="title">🎮 Love Guess Game</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">🎮 Guess Game</div>', unsafe_allow_html=True)
 
 st.markdown(
     '<div class="subtitle">Guess the secret number between 1 and 10 💖</div>',
@@ -164,6 +164,6 @@ st.markdown("</div>", unsafe_allow_html=True)
 # ---------------- FOOTER ----------------
 
 st.markdown(
-    '<div class="footer">Made with ❤️ using Streamlit</div>',
+    '<div class="footer">Made with ❤️ Captain</div>',
     unsafe_allow_html=True
 )
