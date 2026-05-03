@@ -1,81 +1,64 @@
 import streamlit as st
-    """
-    <style>
-    .main {
-        background: linear-gradient(to right, #ffdde1, #ee9ca7);
-    }
-
-    .title {
-        text-align: center;
-        font-size: 50px;
-        color: white;
-        font-weight: bold;
-    }
-
-    .message {
-        text-align: center;
-        font-size: 60px;
-        color: red;
-        font-weight: bold;
-        animation: pulse 1s infinite;
-    }
-
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
 )
 
-# Title
-st.markdown('<p class="title">🎯 Catch The Number Game</p>', unsafe_allow_html=True)
+# ---------------- BUTTONS ----------------
+col1, col2 = st.columns(2)
 
-st.write("---")
+with col1:
+    play = st.button("🎯 Submit Guess", use_container_width=True)
 
-# Game instructions
-st.subheader("🎮 How To Play")
-st.write("Guess the correct number between 1 and 5.")
-st.write("If you win... a surprise message appears 💖")
+with col2:
+    restart = st.button("🔄 Restart", use_container_width=True)
 
-# Generate number
-if 'secret_number' not in st.session_state:
-    st.session_state.secret_number = random.randint(1, 5)
+# ---------------- RESTART ----------------
+if restart:
+    st.session_state.secret_number = random.randint(1, 10)
+    st.session_state.attempts = 0
+    st.success("Game Restarted Successfully!")
 
-# User input
-user_guess = st.number_input(
-    "Enter your guess:",
-    min_value=1,
-    max_value=5,
-    step=1
-)
+# ---------------- GAME LOGIC ----------------
+if play:
 
-# Play button
-if st.button("🎯 Submit Guess"):
+    st.session_state.attempts += 1
 
-    if user_guess == st.session_state.secret_number:
+    if guess == st.session_state.secret_number:
+
         st.balloons()
+        st.snow()
 
-        st.success("🎉 You Won The Game!")
+        st.success("🎉 Congratulations! You Won!")
 
         time.sleep(1)
 
         st.markdown(
-            '<p class="message">💖 I Like You 💖</p>',
+            '<div class="win">💖 I Like You 💖</div>',
             unsafe_allow_html=True
         )
 
-        st.snow()
+        st.markdown(
+            f"<h3 style='text-align:center;color:white;'>You guessed it in {st.session_state.attempts} attempts!</h3>",
+            unsafe_allow_html=True
+        )
 
-        # Reset game
-        st.session_state.secret_number = random.randint(1, 5)
+        st.markdown(
+            "<h2 style='text-align:center;'>❤️ ❤️ ❤️ ❤️ ❤️</h2>",
+            unsafe_allow_html=True
+        )
+
+        # Reset automatically
+        st.session_state.secret_number = random.randint(1, 10)
+        st.session_state.attempts = 0
+
+    elif guess < st.session_state.secret_number:
+        st.warning("📉 Too Low! Try Higher")
 
     else:
-        st.error("❌ Wrong Guess! Try Again")
+        st.warning("📈 Too High! Try Lower")
 
-# Restart button
-if st.button("🔄 Restart Game"):
-    st.session_state.secret_number = random.randint(1, 5)
-    st.success("Game Restarted!")
+# ---------------- FOOTER ----------------
+st.markdown(
+    '<div class="footer">Made with ❤️ using Streamlit</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown('</div>', unsafe_allow_html=True)
